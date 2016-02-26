@@ -8,7 +8,7 @@ android:layout_height="match_parent">
     <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.codepath.apps.complextweets.fragments.HomeTimelineFragment"
+        android:name="com.codepath.apps.complextweets.fragments.MentionsTimelineFragment"
         android:id="@+id/fragment_timeline"
         tools:layout="@layout/fragment_tweets_list" />
 </LinearLayout>
