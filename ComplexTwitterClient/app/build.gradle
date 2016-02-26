@@ -75,5 +75,8 @@ dependencies {
     //Rounded Images
     compile 'com.makeramen:roundedimageview:2.2.1'
 
+    //Pager sliding tab strip
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
 
 }

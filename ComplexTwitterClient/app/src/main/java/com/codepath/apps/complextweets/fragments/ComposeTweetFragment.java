@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.complextweets.R;
@@ -128,10 +127,10 @@ public class ComposeTweetFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
 
-                listener = (ComposeTweetDialogActionListener) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
+               /*listener = (ComposeTweetDialogActionListener) getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_timeline);
                 Toast.makeText(getContext(), etCompose.getText().toString(), Toast.LENGTH_SHORT).show();
                 listener.onComposeTweet(etCompose.getText().toString());
-                dismiss();
+                dismiss();*/
 
             }
         };
