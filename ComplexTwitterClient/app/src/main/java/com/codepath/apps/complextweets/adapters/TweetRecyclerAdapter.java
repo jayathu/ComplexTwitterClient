@@ -38,7 +38,6 @@ public class TweetRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-
         Log.d("TYPE ", viewType + "");
         switch(viewType) {
             case WITHOUT_MEDIA:

@@ -46,7 +46,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="jayceesimpletweets"
+                    android:host="JoyLindaTwitterClient"
                     android:scheme="oauth" />
             </intent-filter>
         </activity>

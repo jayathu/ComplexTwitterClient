@@ -172,11 +172,9 @@ public class Tweet extends Model {
 
     public boolean mediaTypePhoto() {
         if (extended_entities != null) {
-            Log.v("EXTENDED ENTITIES ", "NOT NULL");
             if(extended_entities.getMedia() != null) {
 
                 for (Media m : extended_entities.getMedia()) {
-                    Log.d("MEDIA TYPE", m.getType());
                     if (m.getType().equals("photo")) {
                         return true;
                     }
