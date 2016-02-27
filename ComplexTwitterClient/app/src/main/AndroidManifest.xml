@@ -29,16 +29,14 @@
             android:value="1" />
 
         <activity
-            android:name="com.codepath.apps.complextweets.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -51,15 +49,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.codepath.apps.complextweets.activities.TimelineActivity"
+            android:name=".activities.TimelineActivity"
             android:label="@string/timeLineName" />
         <activity
-            android:name="com.codepath.apps.complextweets.activities.TestActivity"
-            android:label="Test Tweets">
-
-
-        </activity>
-        <activity android:name="com.codepath.apps.complextweets.activities.TweetDetails"></activity>
+            android:name=".activities.TestActivity"
+            android:label="Test Tweets"></activity>
+        <activity android:name=".activities.TweetDetails" />
+        <activity android:name=".activities.ProfileActivity"
+            android:label="@string/profile_label"></activity>
     </application>
 
 </manifest>
