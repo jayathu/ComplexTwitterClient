@@ -1,10 +1,14 @@
 package com.codepath.apps.complextweets.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +18,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.apps.complextweets.R;
+import com.codepath.apps.complextweets.TwitterApplication;
+import com.codepath.apps.complextweets.TwitterClient;
 import com.codepath.apps.complextweets.activities.TweetDetails;
 import com.codepath.apps.complextweets.adapters.TweetRecyclerAdapter;
+import com.codepath.apps.complextweets.models.AccountCredentials;
 import com.codepath.apps.complextweets.models.Tweet;
 import com.codepath.apps.complextweets.models.TweetParcel;
 import com.codepath.apps.complextweets.utilities.DividerItemDecoration;
 import com.codepath.apps.complextweets.utilities.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.complextweets.utilities.ItemClickSupport;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +48,15 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
     private RecyclerView rvResults;
     public SwipeRefreshLayout swipeContainer;
     public FloatingActionButton fab;
+    public AccountCredentials credentials;
+    public String account_id;
+    protected TwitterClient client;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("ACCOUNT_ID", account_id);
+    }
 
 
     @Nullable
@@ -133,6 +153,14 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        account_id = "";
+        if (savedInstanceState != null) {
+            account_id = savedInstanceState.getString("ACCOUNT_ID");
+        }
+
+        client = TwitterApplication.getRestClient(); //singleton client
+        getAccountCredentials();
+        populateTimeline();
 
         aTweets = new ArrayList<>();
         tweetRecyclerAdapter = new TweetRecyclerAdapter(aTweets);
@@ -159,11 +187,91 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
         return aTweets.get(aTweets.size() - 1).getUid();
     }
 
-    public abstract void onComposeTweet(View view);
+    public Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
 
-    public abstract void onSwipeUpToRefresh();
+    public boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
-    public abstract void onEndlessScroll();
+    public void getAccountCredentials() {
+
+        if(!isOnline()) {
+            Log.d("CREDENTIALS", account_id);
+            credentials = AccountCredentials.findCredentials(account_id);
+        }else {
+            client.getAccountCredientials(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    Log.d("DEBUG", response.toString());
+                    credentials = AccountCredentials.fromJSON(response);
+                    account_id = credentials.getAccountId();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.d("DEBUG", errorResponse.toString());
+                }
+            });
+        }
+    }
+
+    public void onSwipeUpToRefresh() {
+        populateTimeline();
+    }
+
+    public void onEndlessScroll() {
+        populateTimelineOnRefresh();
+    }
+
+    public abstract void populateTimelineOnRefresh();
+
+    public abstract void populateTimeline();
+
+    //implementation of abstract method
+    public void onComposeTweet(View view)
+    {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance("Compose", credentials.getProfile_image_url());
+        composeTweetFragment.setTargetFragment(this, 300);
+        composeTweetFragment.show(fm, "dialog_compose_tweet");
+
+
+    }
+
+    public void onComposeTweet(final String tweet) {
+
+        client.postTweet(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("SUCCESS", response.toString());
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("FAILED", errorResponse.toString());
+
+            }
+        }, tweet);
+
+    }
+
 
     public void StoreTweetsToLocalDatabase() {
 
