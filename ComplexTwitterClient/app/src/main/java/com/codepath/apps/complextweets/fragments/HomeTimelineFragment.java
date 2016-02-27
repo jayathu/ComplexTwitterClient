@@ -158,7 +158,9 @@ public class HomeTimelineFragment extends TweetsListFragment {
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
         ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance("Compose", credentials.getProfile_image_url());
+        composeTweetFragment.setTargetFragment(HomeTimelineFragment.this, 300);
         composeTweetFragment.show(fm, "dialog_compose_tweet");
+
 
     }
 
