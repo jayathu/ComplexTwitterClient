@@ -1,5 +1,7 @@
 package com.codepath.apps.complextweets.models;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -41,6 +43,15 @@ public class AccountCredentials extends Model {
     @Column(name = "profile_image_url")
     private String profile_image_url;
 
+    @Column(name = "followers_count")
+    private long followers_count;
+
+    @Column(name = "friends_count")
+    private long following;
+
+    @Column(name = "description")
+    private String description;
+
     public String getAccountId() {
         return account_id;
     }
@@ -57,6 +68,18 @@ public class AccountCredentials extends Model {
         return profile_image_url;
     }
 
+    public long getFollowers_count() {
+        return followers_count;
+    }
+
+    public long getFollowing() {
+        return following;
+    }
+
+    public String getTagline() {
+        return description;
+    }
+
     public AccountCredentials() {
         super();
     }
@@ -68,16 +91,24 @@ public class AccountCredentials extends Model {
         name = credentials.getName();
         screen_name = credentials.getScreen_name();
         profile_image_url = credentials.getProfile_image_url();
+        description = credentials.getTagline();
+        followers_count = credentials.getFollowers_count();
+        following = credentials.getFollowing();
     }
 
     public static AccountCredentials fromJSON(JSONObject jsonObject) {
 
         AccountCredentials credentials = new AccountCredentials();
         try{
+            Log.d("CREDENTIALS = ", jsonObject.toString());
             credentials.account_id = jsonObject.getString("id");
             credentials.name = jsonObject.getString("name");
             credentials.screen_name = jsonObject.getString("screen_name");
             credentials.profile_image_url = jsonObject.getString("profile_image_url");
+            credentials.followers_count = jsonObject.getLong("followers_count");
+            credentials.following = jsonObject.getLong("friends_count");
+            credentials.description = jsonObject.getString("description");
+
 
         }catch (JSONException e) {
             e.printStackTrace();
