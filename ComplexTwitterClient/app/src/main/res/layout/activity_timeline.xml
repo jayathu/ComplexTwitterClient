@@ -6,13 +6,32 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleTextColor="@android:color/white"
+        android:background="@color/skyblue"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:logo="@drawable/rsztwitterlogo"
+        >
+    </android.support.v7.widget.Toolbar>
+
+
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabs"
+        android:layout_below="@+id/toolbar"
+        style="@style/MyCustomTabLayout"
         app:pstsShouldExpand="true"
         app:pstsTextAllCaps="true"
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="48dp"
+        app:pstsDividerColor="@color/gray"
+        app:pstsIndicatorColor="@color/skybluebright"
+        app:pstsUnderlineColor="@color/gray"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

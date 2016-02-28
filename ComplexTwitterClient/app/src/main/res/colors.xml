@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <color name="skyblue">#50bafb</color>
-    <color name="skybluebright">#29a8f6</color>
-    <color name="darkblue">#2063a1</color>
-
-    <color name="steelblue">#6B8C9C</color>
-
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#111111</color>
     <color name="colorAccent">#C2185B</color>
-    <color name="gray">#b9c5c8</color>
     <color name="whitegray">#e6f4f6</color>
     <color name="amber">#FFC107</color>
 </resources>

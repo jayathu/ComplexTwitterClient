@@ -8,6 +8,6 @@
     <string name="title_activity_timeline">TimelineActivity</string>
     <string name="timeLineName">Home Timeline</string>
     <string name="action_compose">Compose</string>
-    v<string name="profile_label">User Profile</string>
+    <string name="profile_label">User Profile</string>
 
 </resources>

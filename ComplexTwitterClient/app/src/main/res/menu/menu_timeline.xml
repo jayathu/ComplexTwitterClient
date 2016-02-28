@@ -7,9 +7,25 @@
     <item
         android:id="@+id/miProfile"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/person"
         android:title="Profile"
         android:onClick="onProfileView">
+
+    </item>
+
+    <item
+        android:id="@+id/miDirectMessage"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/dmtrans"
+        android:title="Message">
+
+    </item>
+
+    <item
+        android:id="@+id/miCompose"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/composetweet"
+        android:title="Compose">
 
     </item>
 
