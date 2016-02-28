@@ -1,7 +1,6 @@
 package com.codepath.apps.complextweets.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,20 +19,16 @@ import android.view.ViewGroup;
 import com.codepath.apps.complextweets.R;
 import com.codepath.apps.complextweets.TwitterApplication;
 import com.codepath.apps.complextweets.TwitterClient;
-import com.codepath.apps.complextweets.activities.TweetDetails;
 import com.codepath.apps.complextweets.adapters.TweetRecyclerAdapter;
 import com.codepath.apps.complextweets.models.AccountCredentials;
 import com.codepath.apps.complextweets.models.Tweet;
-import com.codepath.apps.complextweets.models.TweetParcel;
 import com.codepath.apps.complextweets.models.TweetsPreferences;
 import com.codepath.apps.complextweets.utilities.DividerItemDecoration;
 import com.codepath.apps.complextweets.utilities.EndlessRecyclerViewScrollListener;
-import com.codepath.apps.complextweets.utilities.ItemClickSupport;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +110,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
                 android.R.color.holo_red_light);
 
 
-        ItemClickSupport.addTo(rvResults).setOnItemClickListener(
+        /*ItemClickSupport.addTo(rvResults).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -144,7 +139,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
                         startActivity(intent);
                     }
                 }
-        );
+        );*/
 
 
 

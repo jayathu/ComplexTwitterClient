@@ -30,19 +30,6 @@
            app:riv_tile_mode="repeat"
            app:riv_oval="false" />
 
-
-       <!--<ImageView
-           android:id="@+id/ivProfilePic"
-           android:layout_width="50dp"
-           android:layout_height="50dp"
-           android:src="@drawable/ic_launcher"
-           android:scaleType="fitXY"
-           android:adjustViewBounds="true"
-           android:layout_alignParentLeft="true"
-           android:layout_alignParentTop="true"
-           android:padding="10dp"
-           />-->
-
        <TextView
            android:id="@+id/tvName"
            android:layout_width="wrap_content"
@@ -78,10 +65,9 @@
 
     <ImageView
         android:id="@+id/ivMediaImage"
-        android:src="@drawable/ic_launcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:adjustViewBounds="true"/>
     
 
