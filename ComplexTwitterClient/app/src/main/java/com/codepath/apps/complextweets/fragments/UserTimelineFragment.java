@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.codepath.apps.complextweets.activities.ProfileActivity;
 import com.codepath.apps.complextweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -22,14 +23,14 @@ public class UserTimelineFragment extends TweetsListFragment {
     public static UserTimelineFragment newInstance(String screen_name) {
         UserTimelineFragment userFragment = new UserTimelineFragment();
         Bundle args = new Bundle();
-        args.putString("screen_name", screen_name);
+        args.putString(ProfileActivity.USER_TIMELINE_KEY, screen_name);
         userFragment.setArguments(args);
         return userFragment;
     }
 
     public void populateTimeline() {
 
-        String screenName = getArguments().getString("screen_name");
+        String screenName = getArguments().getString(ProfileActivity.USER_TIMELINE_KEY);
         if (!isOnline()) {
             clearListAndAddNew(GetCachedTweets());
         } else {

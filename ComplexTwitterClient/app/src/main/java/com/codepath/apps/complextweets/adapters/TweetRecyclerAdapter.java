@@ -1,6 +1,7 @@
 package com.codepath.apps.complextweets.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,7 +14,12 @@ import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.complextweets.R;
+import com.codepath.apps.complextweets.activities.ProfileActivity;
 import com.codepath.apps.complextweets.models.Tweet;
+import com.codepath.apps.complextweets.models.TweetParcel;
+import com.codepath.apps.complextweets.models.User;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -106,10 +112,30 @@ public class TweetRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    private void configureViewHolder(TweetItemViewHolder vh1, int position, Context context) {
+    private void configureViewHolder(TweetItemViewHolder vh1, int position, final Context context) {
 
-        Tweet tweet = mTweets.get(position);
+        final Tweet tweet = mTweets.get(position);
         Glide.with(context).load(tweet.getUser().getProfileImageUrl()).into(vh1.ivProfilePic);
+
+        vh1.ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TweetParcel parcel = new TweetParcel();
+                User user = tweet.getUser();
+                parcel.Name = user.getName();
+                parcel.screenName = user.getScreenName();
+                parcel.tagLine = user.getTagLine();
+                parcel.profileImageUrl = user.getProfileImageUrl();
+                parcel.followers = user.getFollowers_count();
+                parcel.following = user.getFollowing();
+
+                Intent intent = new Intent(context, ProfileActivity.class);
+                intent.putExtra(ProfileActivity.USER_PROFILE_KEY, Parcels.wrap(parcel));
+                intent.putExtra(ProfileActivity.USER_TIMELINE_KEY, user.screen_name);
+                context.startActivity(intent);
+            }
+        });
+
         vh1.tvBody.setText(tweet.getBody());
         vh1.tvUsername.setText(tweet.getUser().getScreenName());
         vh1.tvDatePosted.setText(tweet.getRelativeTimeAgo());

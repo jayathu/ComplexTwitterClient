@@ -16,14 +16,6 @@
         app:riv_tile_mode="repeat"
         app:riv_oval="false" />
 
-    <!--<ImageView
-        android:id="@+id/ivProfilePic"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/twitter"
-
-        android:padding="5dp"></ImageView>-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

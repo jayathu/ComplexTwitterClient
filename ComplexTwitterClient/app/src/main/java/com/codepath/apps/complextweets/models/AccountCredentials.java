@@ -44,10 +44,10 @@ public class AccountCredentials extends Model {
     private String profile_image_url;
 
     @Column(name = "followers_count")
-    private long followers_count;
+    private int followers_count;
 
     @Column(name = "friends_count")
-    private long following;
+    private int following;
 
     @Column(name = "description")
     private String description;
@@ -68,11 +68,11 @@ public class AccountCredentials extends Model {
         return profile_image_url;
     }
 
-    public long getFollowers_count() {
+    public int getFollowers_count() {
         return followers_count;
     }
 
-    public long getFollowing() {
+    public int getFollowing() {
         return following;
     }
 
@@ -105,8 +105,8 @@ public class AccountCredentials extends Model {
             credentials.name = jsonObject.getString("name");
             credentials.screen_name = jsonObject.getString("screen_name");
             credentials.profile_image_url = jsonObject.getString("profile_image_url");
-            credentials.followers_count = jsonObject.getLong("followers_count");
-            credentials.following = jsonObject.getLong("friends_count");
+            credentials.followers_count = jsonObject.getInt("followers_count");
+            credentials.following = jsonObject.getInt("friends_count");
             credentials.description = jsonObject.getString("description");
 
 

@@ -13,9 +13,11 @@ public class TweetParcel {
     public String Text;
     public String screenName;
     public String profileImageUrl;
+    public String tagLine;
     public String imageThumbnail = null;
     public String videoThumnail = null;
-
+    public int followers;
+    public int following;
     public TweetParcel() {
 
     }

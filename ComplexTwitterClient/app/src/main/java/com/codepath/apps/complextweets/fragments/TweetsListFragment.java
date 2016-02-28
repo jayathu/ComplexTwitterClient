@@ -25,6 +25,7 @@ import com.codepath.apps.complextweets.adapters.TweetRecyclerAdapter;
 import com.codepath.apps.complextweets.models.AccountCredentials;
 import com.codepath.apps.complextweets.models.Tweet;
 import com.codepath.apps.complextweets.models.TweetParcel;
+import com.codepath.apps.complextweets.models.TweetsPreferences;
 import com.codepath.apps.complextweets.utilities.DividerItemDecoration;
 import com.codepath.apps.complextweets.utilities.EndlessRecyclerViewScrollListener;
 import com.codepath.apps.complextweets.utilities.ItemClickSupport;
@@ -126,6 +127,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
 
                         parcel.Name = tweet.user.name;
                         parcel.screenName = tweet.user.getScreenName();
+                        parcel.tagLine = tweet.user.getTagLine();
                         parcel.Text = tweet.getBody();
                         parcel.profileImageUrl = tweet.getUser().getProfileImageUrl();
                         if (tweet.mediaTypePhoto()) {
@@ -220,6 +222,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
                     Log.d("DEBUG", response.toString());
                     credentials = AccountCredentials.fromJSON(response);
                     account_id = credentials.getAccountId();
+                    TweetsPreferences.setUser(getContext(),response);
                 }
 
                 @Override

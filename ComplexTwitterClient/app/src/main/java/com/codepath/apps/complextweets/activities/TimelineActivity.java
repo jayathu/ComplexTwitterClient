@@ -15,6 +15,11 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.complextweets.R;
 import com.codepath.apps.complextweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.complextweets.fragments.MentionsTimelineFragment;
+import com.codepath.apps.complextweets.models.AccountCredentials;
+import com.codepath.apps.complextweets.models.TweetParcel;
+import com.codepath.apps.complextweets.models.TweetsPreferences;
+
+import org.parceler.Parcels;
 
 public class TimelineActivity extends AppCompatActivity {
 
@@ -53,8 +58,22 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onProfileView(MenuItem item) {
 
-        Intent i = new Intent(this, ProfileActivity.class);
-        startActivity(i);
+        AccountCredentials credentials = TweetsPreferences.getUser(this);
+
+        TweetParcel parcel = new TweetParcel();
+
+        parcel.Name = credentials.getName();
+        parcel.screenName = credentials.getScreen_name();
+        parcel.tagLine = credentials.getTagline();
+        parcel.profileImageUrl = credentials.getProfile_image_url();
+        parcel.followers = credentials.getFollowers_count();
+        parcel.following = credentials.getFollowing();
+
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.USER_PROFILE_KEY, Parcels.wrap(parcel));
+        intent.putExtra(ProfileActivity.USER_TIMELINE_KEY, credentials.getScreen_name());
+        startActivity(intent);
+        //Toast.makeText(this, credentials.getScreen_name(), Toast.LENGTH_SHORT).show();
 
     }
 

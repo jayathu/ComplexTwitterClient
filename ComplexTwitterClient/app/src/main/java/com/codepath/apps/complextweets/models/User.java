@@ -35,6 +35,26 @@ public class User extends Model {
     @Column(name = "profile_image_url")
     public String profile_image_url;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "followers_count")
+    private int followers_count;
+
+    @Column(name = "friends_count")
+    private int friends_count;
+
+    public String getTagLine() {
+        return description;
+    }
+
+    public int getFollowers_count() {
+        return followers_count;
+    }
+
+    public int getFollowing() {
+        return friends_count;
+    }
 
     public String getName() {
         return name;
