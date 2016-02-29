@@ -4,6 +4,14 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by jnagaraj on 2/17/16.
@@ -90,6 +98,56 @@ public class User extends Model {
         return user;
     }*/
 
+    public static ArrayList<Tweet> fromGSONArray(JSONArray jsonArray) {
+        ArrayList<Tweet> tweets = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject tweetJson = jsonArray.getJSONObject(i);
+
+                Tweet tweet = Tweet.fromGSON(tweetJson);
+                if (tweet != null) {
+                    tweets.add(tweet);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+
+        return tweets;
+    }
+
+    public static ArrayList getFollowers(JSONArray jsonArray) {
+
+        ArrayList<User> followers = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject userJson = jsonArray.getJSONObject(i);
+
+                User user = User.fromGSON(userJson);
+                if (user != null) {
+                    followers.add(user);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+
+        return followers;
+
+    }
+
+    public static User fromGSON(JSONObject jsonObject) {
+        Gson gson = new GsonBuilder().create();
+        User user = gson.fromJson(jsonObject.toString(), User.class);
+        user = User.findOrCreate(user);
+        return user;
+    }
 
     public static User findOrCreate(User user) {
         User existingUser = new Select().from(User.class).where("uid = ?", user.getUid()).executeSingle();
