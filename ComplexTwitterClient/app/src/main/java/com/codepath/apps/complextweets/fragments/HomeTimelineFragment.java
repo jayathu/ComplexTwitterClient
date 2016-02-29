@@ -2,7 +2,9 @@ package com.codepath.apps.complextweets.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
@@ -21,7 +23,9 @@ import java.util.List;
 /**
  * Created by jnagaraj on 2/25/16.
  */
-public class HomeTimelineFragment extends TweetsListFragment {
+public class HomeTimelineFragment
+        extends TweetsListFragment
+        implements ComposeTweetFragment.ComposeTweetDialogActionListener, FABActionListener {
 
     private static final boolean TEST_OFFLINE = false;
 
@@ -136,4 +140,30 @@ public class HomeTimelineFragment extends TweetsListFragment {
 
     }
 
+    @Override
+    public void OnFABClicked(View view) {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        ComposeTweetFragment composeTweetFragment = ComposeTweetFragment.newInstance("Compose", credentials.getProfile_image_url());
+        composeTweetFragment.setTargetFragment(this, 300);
+        composeTweetFragment.show(fm, "dialog_compose_tweet");
+    }
+
+    public void onComposeTweet(final String tweet) {
+
+        client.postTweet(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.d("SUCCESS", response.toString());
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.d("FAILED", errorResponse.toString());
+
+            }
+        }, tweet);
+
+    }
 }

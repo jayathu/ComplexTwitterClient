@@ -5,9 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,13 +35,13 @@ import java.util.List;
 /**
  * Created by jnagaraj on 2/24/16.
  */
-public abstract class TweetsListFragment extends Fragment implements ComposeTweetFragment.ComposeTweetDialogActionListener{
+public abstract class TweetsListFragment extends Fragment{
 
     private ArrayList<Tweet> aTweets;
     private TweetRecyclerAdapter tweetRecyclerAdapter;
     private RecyclerView rvResults;
     public SwipeRefreshLayout swipeContainer;
-    public FloatingActionButton fab;
+    //public FloatingActionButton fab;
     public AccountCredentials credentials;
     public String account_id;
     protected TwitterClient client;
@@ -60,7 +58,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tweets_list, container, false);
 
-        fab = (FloatingActionButton)view.findViewById(R.id.fab);
+        //fab = (FloatingActionButton)view.findViewById(R.id.fab);
 
         rvResults = (RecyclerView)view.findViewById(R.id.rvTweets);
         rvResults.setAdapter(tweetRecyclerAdapter);
@@ -73,12 +71,12 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         rvResults.setLayoutManager(linearLayoutManager);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onComposeTweet(v);
             }
-        });
+        });*/
 
 
         rvResults.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -240,7 +238,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
 
     public abstract void populateTimeline();
 
-    //implementation of abstract method
+    /*//implementation of abstract method
     public void onComposeTweet(View view)
     {
         FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -268,7 +266,7 @@ public abstract class TweetsListFragment extends Fragment implements ComposeTwee
             }
         }, tweet);
 
-    }
+    }*/
 
 
     public void StoreTweetsToLocalDatabase() {

@@ -2,7 +2,6 @@ package com.codepath.apps.complextweets.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.codepath.apps.complextweets.activities.ProfileActivity;
 import com.codepath.apps.complextweets.models.Tweet;
@@ -54,11 +53,6 @@ public class UserTimelineFragment extends TweetsListFragment {
                 }
             });
         }
-
-    }
-
-    @Override
-    public void onComposeTweet(View view) {
 
     }
 

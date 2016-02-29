@@ -2,17 +2,20 @@ package com.codepath.apps.complextweets.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.complextweets.R;
+import com.codepath.apps.complextweets.adapters.SmartFragmentStatePagerAdapter;
+import com.codepath.apps.complextweets.fragments.FABActionListener;
 import com.codepath.apps.complextweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.complextweets.fragments.MentionsTimelineFragment;
 import com.codepath.apps.complextweets.models.AccountCredentials;
@@ -23,14 +26,66 @@ import org.parceler.Parcels;
 
 public class TimelineActivity extends AppCompatActivity {
 
+    private ViewPager.OnPageChangeListener mOnPageChangeListener;
+    private FABActionListener fabActionListener;
+    FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        //setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.test_fab_layout);
+
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fabActionListener != null) {
+                    fabActionListener.OnFABClicked(v);
+                }
+            }
+        });
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
 
-        viewPager.setAdapter(new TweetPageAdapter(getSupportFragmentManager()));
+        FragmentManager fm = getSupportFragmentManager();
+        final TweetPageAdapter adapter = new TweetPageAdapter(fm);
+
+        mOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(
+                    int position, float positionOffset, int positionOffsetPixels) {
+                // do nothing
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                fab.setVisibility(View.GONE);
+
+                Fragment frag = adapter.getRegisteredFragment(position);
+                if (frag instanceof HomeTimelineFragment) {
+                    HomeTimelineFragment homeTimelineFragment = (HomeTimelineFragment) frag;
+                    fab.setVisibility(View.VISIBLE);
+                    fabActionListener = homeTimelineFragment;
+                } else if (frag instanceof MentionsTimelineFragment) {
+                   fab.setVisibility(View.INVISIBLE);
+                } else {
+                    throw new RuntimeException(
+                            "Impossible fragment: " + frag + " at position " + position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // do nothing
+            }
+        };
+
+        viewPager.addOnPageChangeListener(mOnPageChangeListener);
+
+        viewPager.setAdapter(adapter);
+
 
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip)findViewById(R.id.tabs);
         tabStrip.setViewPager(viewPager);
@@ -77,7 +132,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    public class TweetPageAdapter extends FragmentPagerAdapter {
+    public class TweetPageAdapter extends SmartFragmentStatePagerAdapter {
 
         private String[] tabTitles = { "Home", "Mentions"};
 
