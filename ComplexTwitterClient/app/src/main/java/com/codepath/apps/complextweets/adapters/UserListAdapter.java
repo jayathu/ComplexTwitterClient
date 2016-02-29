@@ -60,8 +60,8 @@ public class UserListAdapter extends ArrayAdapter<User> {
 
         public ViewHolder(View itemView) {
 
-            tagLine = (TextView)itemView.findViewById(R.id.tvBody);
-            tvScreenMae = (TextView)itemView.findViewById(R.id.tvDatePosted);
+            tagLine = (TextView)itemView.findViewById(R.id.tvScreenName);
+            tvScreenMae = (TextView)itemView.findViewById(R.id.tvTagline);
             tvName = (TextView)itemView.findViewById(R.id.tvUsername);
             ivProfilePhoto = (ImageView)itemView.findViewById(R.id.ivProfilePic);
 
